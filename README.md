@@ -89,6 +89,7 @@ Let's define them on Gitops way.
 
 #### Flux Kustomize
 First of all create Flux Kustomization that point to `./infrastructure/<cluster>/prometheus-operator-crds`. Let's try from non-prod cluster.  
+
 Create [clusters/non-prod/infrastructure/prometheus-operator-crds.yaml](clusters/non-prod/infrastructure/prometheus-operator-crds.yaml)
 
 
@@ -131,15 +132,8 @@ Go to repository root. Then create overlay directory
 mkdir -p ./infrastructure/overlays/non-prod/prometheus-operator-crds
 cd ./infrastructure/overlays/non-prod/prometheus-operator-crds
 ```
-Create `kustomization.yaml`
-```yaml
-apiVersion: kustomize.config.k8s.io/v1beta1
-kind: Kustomization
+Create [kustomization.yaml](infrastructure/overlays/non-prod/prometheus-operator-crds/kustomization.yaml)
 
-resources:
-- ../../../base/prometheus-operator-crds/v0.56.0
-
-```
 
 Validate that flux can build resources. Since Flux v0.29 flux cli allow to build manifests locally
 ```
