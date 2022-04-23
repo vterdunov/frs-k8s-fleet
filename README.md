@@ -179,12 +179,16 @@ mkdir -p ./infrastructure/overlays/non-prod/cert-manager/{controller,cluster-iss
 
 **Controller**  
 See [infrastructure/overlays/non-prod/cert-manager/controller](infrastructure/overlays/non-prod/cert-manager/controller) manifests in the repo.
+
+Verify kustomize can build them:
 ```
 kustomize build --load-restrictor=LoadRestrictionsNone --reorder=legacy .
 ```
 
 **Cluster Issuers CR**  
 See [https://github.com/vterdunov/frs-k8s-fleet/tree/main/infrastructure/overlays/non-prod/cert-manager/cluster-issuers](https://github.com/vterdunov/frs-k8s-fleet/tree/main/infrastructure/overlays/non-prod/cert-manager/cluster-issuers) manifests in the repo.
+
+Verify kustomize can build them:
 ```
 kustomize build --load-restrictor=LoadRestrictionsNone --reorder=legacy .
 ```
