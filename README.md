@@ -152,51 +152,8 @@ Now let's to know how to manage dependencies with a CRD and CR on cert-manager e
 Cert manager is a very popular kubernetes controller which has their own Custom Resources and Custom Resources Definitions.
 We're going to deploy cert manager CRDs and deployments. And tell Flux to install CR only after the CRDs and Deployments will be successfully reconciled. To do that we create two different Flux Kustomization and one will be **depends** on of the other.
 
-Create `./clusters/non-prod/cert-manager.yaml`
+Create [clusters/non-prod/infrastructure/cert-manager.yaml](clusters/non-prod/infrastructure/cert-manager.yaml)
 
-```yaml
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
-kind: Kustomization
-metadata:
-  name: cert-manager-controller
-  namespace: flux-system
-spec:
-  suspend: false
-  interval: 60m
-  wait: true
-  timeout: 3m
-  retryInterval: 2m
-  prune: true
-  force: true
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-  path: ./infrastructure/overlays/non-prod/cert-manager/controller
-  dependsOn:
-    - name: prometheus-operator-crds
-
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
-kind: Kustomization
-metadata:
-  name: cert-manager-cluster-issuers
-  namespace: flux-system
-spec:
-  suspend: false
-  interval: 60m
-  wait: true
-  timeout: 3m
-  retryInterval: 2m
-  prune: true
-  force: true
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-  path: ./infrastructure/overlays/non-prod/cert-manager/cluster-issuers
-  dependsOn:
-    - name: cert-manager-controller
-```
 
 As you notice `cert-manager-cluster-issuers` Flux Kustomization depends on `cert-manager-controller` which depends on `prometheus-operator-crds`. Therefore when it's time for the next reconcilation of the `cert-manager-cluster-issuers` Flux will check that `prometheus-operator-crds` and `cert-manager-controller` are ready.
 
@@ -207,11 +164,11 @@ mkdir -p ./infrastructure/base/cert-manager/{controller,cluster-issuers}
 ```
 **Controller**  
 Prepare base controller manifests
-See `./infrastructure/base/cert-manager/controller` manifests in the repo.
+See [infrastructure/base/cert-manager/controller](infrastructure/base/cert-manager/controller) manifests in the repo.
 
 **Cluster Issuers CR**  
 Prepare cluster-issuers manifests
-See `./infrastructure/base/cert-manager/cluster-issuers` manifests in the repo.
+See [infrastructure/base/cert-manager/cluster-issuers](infrastructure/base/cert-manager/cluster-issuers) manifests in the repo.
 
 
 #### Overlay Kustomization
@@ -221,13 +178,13 @@ mkdir -p ./infrastructure/overlays/non-prod/cert-manager/{controller,cluster-iss
 ```
 
 **Controller**  
-See `./infrastructure/overlays/non-prod/cert-manager/controller` manifests in the repo.
+See [infrastructure/overlays/non-prod/cert-manager/controller](infrastructure/overlays/non-prod/cert-manager/controller) manifests in the repo.
 ```
 kustomize build --load-restrictor=LoadRestrictionsNone --reorder=legacy .
 ```
 
 **Cluster Issuers CR**  
-See `infrastructure/overlays/non-prod/cert-manager/cluster-issuers` manifests in the repo.
+See [https://github.com/vterdunov/frs-k8s-fleet/tree/main/infrastructure/overlays/non-prod/cert-manager/cluster-issuers](https://github.com/vterdunov/frs-k8s-fleet/tree/main/infrastructure/overlays/non-prod/cert-manager/cluster-issuers) manifests in the repo.
 ```
 kustomize build --load-restrictor=LoadRestrictionsNone --reorder=legacy .
 ```
