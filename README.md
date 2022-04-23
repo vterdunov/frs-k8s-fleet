@@ -89,28 +89,8 @@ Let's define them on Gitops way.
 
 #### Flux Kustomize
 First of all create Flux Kustomization that point to `./infrastructure/<cluster>/prometheus-operator-crds`. Let's try from non-prod cluster.  
-Create `./clusters/non-prod/prometheus-operator-crds.yaml`
+Create [clusters/non-prod/prometheus-operator-crds.yaml](clusters/non-prod/prometheus-operator-crds.yaml)
 
-```yaml
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
-kind: Kustomization
-metadata:
-  name: prometheus-operator-crds
-  namespace: flux-system
-spec:
-  suspend: false
-  interval: 60m
-  wait: true
-  timeout: 3m
-  retryInterval: 2m
-  prune: true
-  force: true
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-  path: ./infrastructure/overlays/non-prod/prometheus-operator-crds
-```
 
 > See Flux Kustomize recommended settings [[doc](https://fluxcd.io/docs/components/kustomize/kustomization/#recommended-settings)]
 
