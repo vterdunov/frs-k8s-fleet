@@ -89,7 +89,7 @@ Let's define them on Gitops way.
 
 #### Flux Kustomize
 First of all create Flux Kustomization that point to `./infrastructure/<cluster>/prometheus-operator-crds`. Let's try from non-prod cluster.  
-Create [clusters/non-prod/prometheus-operator-crds.yaml](clusters/non-prod/prometheus-operator-crds.yaml)
+Create [clusters/non-prod/infrastructure/prometheus-operator-crds.yaml](clusters/non-prod/infrastructure/prometheus-operator-crds.yaml)
 
 
 > See Flux Kustomize recommended settings [[doc](https://fluxcd.io/docs/components/kustomize/kustomization/#recommended-settings)]
