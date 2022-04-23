@@ -17,7 +17,7 @@ spec:
     name: flux-system
   path: ./infrastructure/overlays/non-prod/cert-manager/controller
   dependsOn:
-    - name: prometheus-controller-crds
+    - name: prometheus-operator-crds
 
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2

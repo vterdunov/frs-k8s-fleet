@@ -200,7 +200,7 @@ spec:
     name: flux-system
   path: ./infrastructure/overlays/non-prod/cert-manager/controller
   dependsOn:
-    - name: prometheus-controller-crds
+    - name: prometheus-operator-crds
 
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
@@ -224,7 +224,7 @@ spec:
     - name: cert-manager-controller
 ```
 
-As you notice `cert-manager-cluster-issuers` Flux Kustomization depends on `cert-manager-controller` wich depends `prometheus-controller-crds`. Therefore when it's time for the next reconcilation of `cert-manager-cluster-issuers` Flux will check that `prometheus-controller-crds` and `cert-manager-controller` are ready.
+As you notice `cert-manager-cluster-issuers` Flux Kustomization depends on `cert-manager-controller` wich depends `prometheus-operator-crds`. Therefore when it's time for the next reconcilation of `cert-manager-cluster-issuers` Flux will check that `prometheus-operator-crds` and `cert-manager-controller` are ready.
 
 #### Base Kustomization
 We're going to use kustomization overlays [[doc](https://kustomize.io/)] to manage our Kubernetes Resources. But first we need to create `base` for our future overlays.
