@@ -198,7 +198,7 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: ./k8s/infrastructure/overlays/non-prod/cert-manager/controller
+  path: ./infrastructure/overlays/non-prod/cert-manager/controller
   dependsOn:
     - name: prometheus-controller-crds
 
@@ -219,7 +219,7 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: ./k8s/infrastructure/overlays/non-prod/cert-manager/cluster-issuers
+  path: ./infrastructure/overlays/non-prod/cert-manager/cluster-issuers
   dependsOn:
     - name: cert-manager-controller
 ```
