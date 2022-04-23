@@ -65,4 +65,6 @@ At this moment we have two Kubernetes clusters with two Flux instalaltion pointe
 Non-prod Flux is tracking `./clusters/non-prod` path.
 Prod Flux is tracking `./clusters/prod` path.
 
+Repo structure for this momemt is available in `stage-0` git branch.
+
 ## Flux Repo Structure
