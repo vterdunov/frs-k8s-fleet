@@ -1,0 +1,41 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+kind: Kustomization
+metadata:
+  name: cert-manager-controller
+  namespace: flux-system
+spec:
+  suspend: false
+  interval: 60m
+  wait: true
+  timeout: 3m
+  retryInterval: 2m
+  prune: true
+  force: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./k8s/infrastructure/overlays/non-prod/cert-manager/controller
+  dependsOn:
+    - name: prometheus-controller-crds
+
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+kind: Kustomization
+metadata:
+  name: cert-manager-cluster-issuers
+  namespace: flux-system
+spec:
+  suspend: false
+  interval: 60m
+  wait: true
+  timeout: 3m
+  retryInterval: 2m
+  prune: true
+  force: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./k8s/infrastructure/overlays/non-prod/cert-manager/cluster-issuers
+  dependsOn:
+    - name: cert-manager-controller

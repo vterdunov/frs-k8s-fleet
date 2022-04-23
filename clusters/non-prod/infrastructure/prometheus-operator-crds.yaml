@@ -1,0 +1,18 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+kind: Kustomization
+metadata:
+  name: prometheus-operator-crds
+  namespace: flux-system
+spec:
+  suspend: false
+  interval: 60m
+  wait: true
+  timeout: 3m
+  retryInterval: 2m
+  prune: true
+  force: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./k8s/infrastructure/overlays/non-prod/prometheus-operator-crds

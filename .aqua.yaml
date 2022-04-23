@@ -7,3 +7,4 @@ registries:
 packages:
 - name: kubernetes-sigs/kind@v0.12.0
 - name: fluxcd/flux2@v0.29.3
+- name: kubernetes-sigs/kustomize@kustomize/v4.5.4
