@@ -1,8 +1,11 @@
 # Flux Repo Structure - Fleet of Clusters
 
 ## Overview
+
+## Prerequisites
+### Kubernetes clusters
 For example let's use two local clusters for our Fleet.
-I'm going to use `kind` tool to create cluster. [[doc](https://kind.sigs.k8s.io/docs/user/quick-start/#creating-a-cluster)]
+I'm going to use `kind` tool to create clusters. [[doc](https://kind.sigs.k8s.io/docs/user/quick-start/#creating-a-cluster)]
 
 Non-prod cluster:
 ```
@@ -56,3 +59,10 @@ flux bootstrap github \
   --path=clusters/prod \
   --personal
 ```
+
+### Recap
+At this moment we have two Kubernetes clusters with two Flux instalaltion pointed to `frs-k8s-fleet` repository.
+Non-prod Flux is tracking `./clusters/non-prod` path.
+Prod Flux is tracking `./clusters/prod` path.
+
+## Flux Repo Structure
