@@ -65,11 +65,11 @@ At this moment we have two Kubernetes clusters with two Flux installation pointe
 - Non-prod Flux is tracking `./clusters/non-prod` path.
 - Prod Flux is tracking `./clusters/prod` path.
 
-Repo structure for this momemt is available in `stage-0` git branch.
+Repo structure for this momemt is available on `stage-0` git branch.
 
 ## Flux Repo Structure
 On the `./clusters/<cluster>` level we're going to use two directories for our workloads.
-- `./clusters/<cluster>/infrastructure` for cluster wide infrastructure components. Such as monitoring, logs collectors, some cluster wide Databases. In other words everything that cluster admin should deploy to clusters.
+- `./clusters/<cluster>/infrastructure` for cluster wide infrastructure components: such as monitoring, logs collectors, some cluster wide Databases. In other words everything that cluster admin should deploys to clusters.
 - `./clusters/<cluster>/tenants` for a company teams workloads. Microservices deployments, dashboards and so on.
 
 ```
@@ -80,17 +80,16 @@ mkdir -p ./infrastructure/overlays/{prod,non-prod}
 
 
 ### Prometheus Operator Custom Resource Definitions
-Almost every popular workload in kubernetes provdes metrics in Prometheus format. Even kubernetes components itself. It convinient to use Pormetheus Opeartor or VictroriaMetrics Operator to dynamicaly add and operate targets to Prometheus or VictroiaMetrics.
+Almost every popular workload in kubernetes provdes metrics in Prometheus format even kubernetes components itself. It's convinient to use Pormetheus Opeartor or VictroriaMetrics Operator to dynamicaly add and operate targets to Prometheus or VictroiaMetrics.
 
-We will use `ServiceMonitor` and `PodMonitor` Custom Resources. A lot of popular HelmChart allows to create `ServiceMonitor` by just adding a few lines in chart values. E.g. nginx ingress helm chart [values](https://github.com/kubernetes/ingress-nginx/blob/6d9a39eda7b180f27b34726d7a7a96d73808ce75/charts/ingress-nginx/values.yaml#L678).  
-To be able to create a Custom Resource in Kubernetes need to create Custom Resource Definition. Therefore a lot of cluster infrastructure components **depends on** `Prometheus Operator Custom Resource Definitions`.
+We will use `ServiceMonitor` and `PodMonitor` Custom Resources. A lot of popular HelmCharts allow to create `ServiceMonitor` by just adding a few lines in chart values. E.g. nginx ingress helm chart [values](https://github.com/kubernetes/ingress-nginx/blob/6d9a39eda7b180f27b34726d7a7a96d73808ce75/charts/ingress-nginx/values.yaml#L678).  
+To be able to create a Custom Resource in Kubernetes we need to create Custom Resource Definition. Therefore a lot of cluster infrastructure components **depend on** `Prometheus Operator Custom Resource Definitions`.
 
-Let's define them on Gitops way.
+Let's define them in Gitops way.
 
 #### Flux Kustomize
-First of all create Flux Kustomization that point to `./infrastructure/<cluster>/prometheus-operator-crds`. Let's try from non-prod cluster.  
-
-Create [clusters/non-prod/infrastructure/prometheus-operator-crds.yaml](clusters/non-prod/infrastructure/prometheus-operator-crds.yaml)
+First, create Flux Kustomization that points to `./infrastructure/<cluster>/prometheus-operator-crds`.  
+Let's start with non-prod cluster. Create [clusters/non-prod/infrastructure/prometheus-operator-crds.yaml](clusters/non-prod/infrastructure/prometheus-operator-crds.yaml)
 
 
 > See Flux Kustomize recommended settings [[doc](https://fluxcd.io/docs/components/kustomize/kustomization/#recommended-settings)]
@@ -103,8 +102,8 @@ cd ./infrastructure/base/prometheus-operator-crds
 ```
 
 Prometheus Operator CRDs available on Github https://github.com/prometheus-operator/prometheus-operator/  
-Get latest tag and download CRDs to a directory with name equal as the git tag.
-For this momemnt latest tag is `v0.56.0`
+Get latest tag and download CRDs to a directory with the name that equals the git tag.
+At this momemnt latest tag is `v0.56.0`
 ```
 export PROM_GIT_TAG='v0.56.0'
 
@@ -121,13 +120,13 @@ wget https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/$
 
 ```
 
-Generate `kustomization.yaml` that simplify to work with this whole `v0.56.0` directory in future. We will just point to the directory in `non-prod` overlay.
+Generate `kustomization.yaml` that simplifys working with this whole `v0.56.0` directory in future. We will just point to the directory in `non-prod` overlay.
 ```
 kustomize create --recursive --autodetect .
 ```
 
 #### Overlay Kustomization
-Go to repository root. Then create overlay directory
+Then go to repository root and create overlay directory
 ```
 mkdir -p ./infrastructure/overlays/non-prod/prometheus-operator-crds
 cd ./infrastructure/overlays/non-prod/prometheus-operator-crds
@@ -135,7 +134,7 @@ cd ./infrastructure/overlays/non-prod/prometheus-operator-crds
 Create [kustomization.yaml](infrastructure/overlays/non-prod/prometheus-operator-crds/kustomization.yaml)
 
 
-Validate that flux can build resources. Since Flux v0.29 flux cli allow to build manifests locally
+Validate flux can build resources. Since Flux v0.29 `flux` allows building manifests locally
 ```
 flux build kustomization prometheus-operator-crds --path . --kustomization-file ../../../../clusters/non-prod/infrastructure/prometheus-operator-crds.yaml
 ```
@@ -148,14 +147,15 @@ kustomize build --load-restrictor=LoadRestrictionsNone --reorder=legacy .
 ### Cert Manager
 
 #### Flux Kustomiation
-Now let's to know how to manage dependencies with a CRD and CR on cert-manager example.  
-Cert manager is a very popular kubernetes controller which has their own Custom Resources and Custom Resources Definitions.
-We're going to deploy cert manager CRDs and deployments. And tell Flux to install CR only after the CRDs and Deployments will be successfully reconciled. To do that we create two different Flux Kustomization and one will be **depends** on of the other.
+Now let's see how to manage dependencies between CRDs and CRs based on cert-manager example.  
+Cert manager is a realy popular kubernetes controller which has its own Custom Resources and Custom Resources Definitions.  
+First, we're going to deploy cert manager CRDs and Deployments. Then configure Flux to install CR only when the CRDs and Deployments will be successfully reconciled.  
+To do that we create two different Flux Kustomizations where one Flux Kustomization **depends** on another.
 
 Create [clusters/non-prod/infrastructure/cert-manager.yaml](clusters/non-prod/infrastructure/cert-manager.yaml)
 
 
-As you notice `cert-manager-cluster-issuers` Flux Kustomization depends on `cert-manager-controller` which depends on `prometheus-operator-crds`. Therefore when it's time for the next reconcilation of the `cert-manager-cluster-issuers` Flux will check that `prometheus-operator-crds` and `cert-manager-controller` are ready.
+As you notice `cert-manager-cluster-issuers` Flux Kustomization depends on `cert-manager-controller` which depends on `prometheus-operator-crds`. Therefore when it's time for the next reconcilation of the `cert-manager-cluster-issuers` Flux checks that `prometheus-operator-crds` and `cert-manager-controller` are ready.
 
 #### Base Kustomization
 We're going to use kustomization overlays [[doc](https://kustomize.io/)] to manage our Kubernetes Resources. But first we need to create `base` for our future overlays.
