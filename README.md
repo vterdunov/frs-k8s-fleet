@@ -186,7 +186,7 @@ kustomize build --load-restrictor=LoadRestrictionsNone --reorder=legacy .
 ```
 
 **Cluster Issuers CR**  
-See [https://github.com/vterdunov/frs-k8s-fleet/tree/main/infrastructure/overlays/non-prod/cert-manager/cluster-issuers](https://github.com/vterdunov/frs-k8s-fleet/tree/main/infrastructure/overlays/non-prod/cert-manager/cluster-issuers) manifests in the repo.
+See [infrastructure/overlays/non-prod/cert-manager/cluster-issuers](infrastructure/overlays/non-prod/cert-manager/cluster-issuers) manifests in the repo.
 
 Verify kustomize can build them:
 ```
