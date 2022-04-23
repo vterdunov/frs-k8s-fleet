@@ -257,3 +257,13 @@ See `infrastructure/overlays/non-prod/cert-manager/cluster-issuers`
 ```
 kustomize build --load-restrictor=LoadRestrictionsNone --reorder=legacy .
 ```
+
+### Recap
+At this moment we have two Kubernetes clusters with two Flux instalaltion pointed to `frs-k8s-fleet` repository.
+- Non-prod Flux is tracking `./clusters/non-prod` path.
+- Prod Flux is tracking `./clusters/prod` path.
+
+- `infrastructure/overlays/non-prod`  
+We have deployed Prometheus Operator CRDs and Cert Manager in Gitops way.
+
+Repo structure for this momemt is available in `stage-1` git branch.
