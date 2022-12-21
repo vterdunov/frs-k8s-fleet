@@ -6,4 +6,4 @@ namespace: app1
 resources:
 - fk.yaml
 - namespace.yaml
-- deployment.yaml
+# - deployment.yaml
