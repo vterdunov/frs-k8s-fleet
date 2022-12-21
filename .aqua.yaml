@@ -3,8 +3,8 @@
 # https://aquaproj.github.io/
 registries:
 - type: standard
-  ref: v2.8.0 # renovate: depName=aquaproj/aqua-registry
+  ref: v3.106.0 # renovate: depName=aquaproj/aqua-registry
 packages:
-- name: kubernetes-sigs/kind@v0.12.0
-- name: fluxcd/flux2@v0.29.3
-- name: kubernetes-sigs/kustomize@kustomize/v4.5.4
+- name: kubernetes-sigs/kind@v0.17.0
+- name: fluxcd/flux2@v0.38.0
+- name: kubernetes-sigs/kustomize@kustomize/v4.5.7
