@@ -9,12 +9,12 @@ I'm going to use `kind` tool to create clusters. [[doc](https://kind.sigs.k8s.io
 
 Non-prod cluster:
 ```
-kind create cluster --image kindest/node:v1.23.4 --name non-prod
+kind create cluster --image kindest/node:v1.25.3 --name non-prod
 ```
 
 Prod cluster:
 ```
-kind create cluster --image kindest/node:v1.23.4 --name prod
+kind create cluster --image kindest/node:v1.25.3 --name prod
 ```
 
 Check that clusters are up and running
@@ -22,14 +22,14 @@ Check that clusters are up and running
 kubectl --context kind-non-prod get nodes
 
 NAME                     STATUS   ROLES                  AGE     VERSION
-non-prod-control-plane   Ready    control-plane,master   3m54s   v1.23.4
+non-prod-control-plane   Ready    control-plane,master   3m54s   v1.25.3
 ```
 
 ```
 kubectl --context kind-prod get nodes
 
 NAME                 STATUS   ROLES                  AGE   VERSION
-prod-control-plane   Ready    control-plane,master   84s   v1.23.4
+prod-control-plane   Ready    control-plane,master   84s   v1.25.3
 ```
 
 ### Bootstrap the clusters
