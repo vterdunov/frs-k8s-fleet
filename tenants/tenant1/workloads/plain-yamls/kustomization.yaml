@@ -5,4 +5,4 @@ namespace: plain-yamls
 
 resources:
 - namespace.yaml
-# - deployment.yaml
+- deployment.yaml
