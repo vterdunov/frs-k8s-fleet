@@ -6,4 +6,4 @@ namespace: kustomization
 resources:
 - fk.yaml
 - namespace.yaml
-# - deployment.yaml
+- deployment.yaml
