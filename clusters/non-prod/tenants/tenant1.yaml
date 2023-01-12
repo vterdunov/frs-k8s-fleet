@@ -15,4 +15,4 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: ./tenants/tenant1/workloads/flux-kustomization
+  path: ./tenants/tenant1/workloads/kustomization
