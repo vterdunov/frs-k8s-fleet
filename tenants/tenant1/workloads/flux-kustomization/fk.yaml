@@ -17,3 +17,7 @@ spec:
     namespace: flux-system
   path: ./tenants/tenant1/workloads/flux-kustomization
   targetNamespace: flux-kustomization
+  images:
+  - name: nginx
+    newName: nginx
+    newTag: "1.14.0"
