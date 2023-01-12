@@ -1,0 +1,6 @@
+* text=auto eol=lf
+
+*.enc.yaml diff=sopsdiffer
+*.enc.yml diff=sopsdiffer
+
+encrypted/*.{yaml,json,ini,env} diff=sopsdiffer

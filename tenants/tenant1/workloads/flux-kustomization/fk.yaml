@@ -2,9 +2,8 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
 metadata:
-  name: app1
+  name: flux-kustomization
 spec:
-  suspend: false
   interval: 60m
   wait: true
   timeout: 1m
@@ -15,4 +14,4 @@ spec:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  path: ./tenants/tenant1/workloads/app1
+  path: ./tenants/tenant1/workloads/flux-kustomization
